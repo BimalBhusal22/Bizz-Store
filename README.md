@@ -1,0 +1,1 @@
+# Bizz Store is an ecommerce platform crafted with MERN stack.
