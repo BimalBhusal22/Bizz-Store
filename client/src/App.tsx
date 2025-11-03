@@ -12,27 +12,50 @@ import Home from "./pages/shop/Home";
 import Listing from "./pages/shop/Listing";
 import Account from "./pages/shop/Account";
 import Checkout from "./pages/shop/Checkout";
+import UnAuthPage from "./pages/unauthPage/UnAuthPage";
+import CheckAuth from "./components/common/CheckAuth";
 
 const App = () => {
+  const isAuthenticated = true;
+  const user = {
+    name: "Bimal",
+    role: "user",
+  };
   return (
     <Routes>
-      <Route path="auth" element={<AuthLayout />}>
+      <Route
+        path="auth"
+        element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <AuthLayout />
+          </CheckAuth>
+        }
+      >
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
 
-      <Route path="admin" element={<AdminLayout />}>
+      <Route path="admin" element={
+        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <AdminLayout />
+        </CheckAuth>
+      }>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="products" element={<AdminProducts />} />
         <Route path="orders" element={<AdminOrders />} />
       </Route>
 
-      <Route path="shop" element={<ShopLayout />}>
+      <Route path="shop" element={
+        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <ShopLayout />
+        </CheckAuth>
+      }>
         <Route path="home" element={<Home />} />
         <Route path="listing" element={<Listing />} />
         <Route path="account" element={<Account />} />
         <Route path="checkout" element={<Checkout />} />
       </Route>
+      <Route path="unauth-page" element={<UnAuthPage />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
