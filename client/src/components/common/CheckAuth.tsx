@@ -11,6 +11,7 @@ interface CheckAuthProps {
 
 function CheckAuth({ isAuthenticated, user, children }: CheckAuthProps) {
   const location = useLocation();
+  console.log("CheckAuth", isAuthenticated,user);
 
   console.log(location.pathname, isAuthenticated);
 

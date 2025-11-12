@@ -14,13 +14,20 @@ import Account from "./pages/shop/Account";
 import Checkout from "./pages/shop/Checkout";
 import UnAuthPage from "./pages/unauthPage/UnAuthPage";
 import CheckAuth from "./components/common/CheckAuth";
+import { useAppDispatch, useAppSelector } from "./store/store";
+import { useEffect } from "react";
+import { checkAuth } from "./store/authSlice";
+import { Skeleton } from "./components/ui/skeleton";
 
 const App = () => {
-  const isAuthenticated = true;
-  const user = {
-    name: "Bimal",
-    role: "user",
-  };
+  const { isAuthenticated, user, isLoading } = useAppSelector((state) => state.auth);
+   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;
   return (
     <Routes>
       <Route
@@ -35,21 +42,27 @@ const App = () => {
         <Route path="register" element={<Register />} />
       </Route>
 
-      <Route path="admin" element={
-        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-          <AdminLayout />
-        </CheckAuth>
-      }>
+      <Route
+        path="admin"
+        element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <AdminLayout />
+          </CheckAuth>
+        }
+      >
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="products" element={<AdminProducts />} />
         <Route path="orders" element={<AdminOrders />} />
       </Route>
 
-      <Route path="shop" element={
-        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-          <ShopLayout />
-        </CheckAuth>
-      }>
+      <Route
+        path="shop"
+        element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <ShopLayout />
+          </CheckAuth>
+        }
+      >
         <Route path="home" element={<Home />} />
         <Route path="listing" element={<Listing />} />
         <Route path="account" element={<Account />} />
